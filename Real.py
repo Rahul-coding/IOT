@@ -16,8 +16,14 @@ import streamlit as st
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
-
-picture = st.camera_input("Take a picture")
+st.title("Food")
+picture = st.camera_input("Take a picture of food label")
 
 if picture:
     st.image(picture)
+st.title("Healthy/unhealthy")
+st.title("List of rankings")
+st.write("Sugar - 1")
+st.divider()
+st.write("Salt - 2")
+st.divider()
