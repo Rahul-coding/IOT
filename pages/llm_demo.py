@@ -21,6 +21,6 @@ if st.button('analyze'):
   prompt= "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking and return in a JSON format" + str(data))
          
 else:
-    st.write("Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking and return in a JSON format + str(data)")
+    st.write("Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking and return in a JSON format")
 
 
