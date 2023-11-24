@@ -4,9 +4,9 @@ st.title("Camera demo")
 st.text("press on the sqaure to take a photo")
 image = st.camera_input("Take a picture of food label")
 if image:
-    with open('./images/image.jpg', 'wb') as file: #saving as file 
+    with open('./images/real.jpg', 'wb') as file: #saving as file 
         file.write(image.getvalue())
         file.close()
     st.text("Photo that was taken (new photo will override last one)")
-    st.image('./images/image.jpg') # showing the image
+    st.image('./images/real.jpg') # showing the image
     print('file save')  

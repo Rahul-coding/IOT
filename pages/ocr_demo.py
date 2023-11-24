@@ -6,6 +6,24 @@ import streamlit as st
 
 # Setup basic variables
 # Auth Config
+
+image = ""
+
+on = st.toggle('Use backup file')
+  
+
+st.title("LLM - Cohere")
+
+if st.button('analyze'):
+    if on:
+        image = "./images/backup.jpg"
+        
+    else:
+         image = "./images/real.jpg"
+         
+else:
+    print()
+
 config = {
     "user": os.getenv('OCI_USER'),
     "key_content": os.getenv('OCI_KEY'),
@@ -20,7 +38,7 @@ COMPARTMENT_ID = "ocid1.compartment.oc1..aaaaaaaac3cxhzoka75zaaysugzmvhm3ni3keqv
 
 #sample document
 text_extraction_sample_string = None
-with open("./images/image.jpg", "rb") as document_file:
+with open(image, "rb") as document_file:
     text_extraction_sample_string = base64.b64encode(document_file.read()).decode('utf-8')
 
 def create_processor_job_callback(times_called, response):
