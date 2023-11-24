@@ -10,3 +10,4 @@ jsonpath_ng
 #PIL
 oci
 streamlit-back-camera-input
+streamlit_toggle_switch
