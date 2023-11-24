@@ -33,5 +33,6 @@ expression = parse('pages[*].lines[*].text')
 match = expression.find(data)
 for match in expression.find(data):
     parsed += match.value
-with open('./text/real.txt') as parsed:
+with open('./text/real.txt', 'wb') as parsed:
      print("parsed saved")
+    
