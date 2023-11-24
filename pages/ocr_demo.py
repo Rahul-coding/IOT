@@ -30,12 +30,10 @@ else:
 with open('./text/real.txt') as extracted:
      print("extract saved")
 
-with open('./text/real.txt') as json_file:
-    json_data = json.load(json_file)
 
 expression = parse('pages[*].lines[*].text')
-match = expression.find(json_data)
-for match in expression.find(json_data):
+match = expression.find(extracted)
+for match in expression.find(extracted):
     parsed += match.value
 with open('./text/real.txt') as parsed:
      print("parsed saved")
