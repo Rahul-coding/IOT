@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_back_camera_input import back_camera_input
 st.title("Camera demo")
 st.text("press on the sqaure to take a photo")
-image = back_camera_input()
+image = st.camera_input("Take a picture of food label")
 if image:
     with open('./images/image.jpg', 'wb') as file: #saving as file 
         file.write(image.getvalue())
