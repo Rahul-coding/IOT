@@ -9,4 +9,4 @@ jsonpath_ng
 #os
 #PIL
 oci
-streamlit_back_camera_input
+streamlit-back-camera-input
