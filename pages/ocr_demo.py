@@ -1,9 +1,12 @@
 import streamlit as st
 from ocr_utils import analyze
+from jsonpath_ng import JSONPath, parse
+import json
 image = "./images/real.jpg"
 
 on = st.toggle('Use backup file')
 data = 0
+parsed = ''
 
 st.title("Extracting Text")
 st.write("**Using Oracles OCI vision service**")
@@ -21,7 +24,18 @@ if st.button('Analyze'):
     else:
         image = "./images/real.jpg"
         st.image('./images/real.jpg')
-    data = analyze(image)
-    st.write(data)      
+    data = analyze(image)   
 else:
     st.write(data)
+with open('./text/real.txt') as extracted:
+     print("extract saved")
+
+with open('./text/real.txt') as json_file:
+    json_data = json.load(json_file)
+
+expression = parse('pages[*].lines[*].text')
+match = expression.find(json_data)
+for match in expression.find(json_data):
+    parsed += match.value
+with open('./text/real.txt') as parsed:
+     print("parsed saved")

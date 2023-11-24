@@ -12,10 +12,10 @@ st.title("Ranking")
 st.write("**Using Coheres Large Language Model**")
 
 text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking and return in a JSON format: " + str(data)
-file_name = './parsed_data/real.txt'
+file_name = './text/real.txt'
 
 if on:
-  file_name = './parsed_data/backup.txt'
+  file_name = './text/backup.txt'
 
 file=open(file_name ,"r")
 data = file.read()
