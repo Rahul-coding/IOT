@@ -5,7 +5,7 @@ import os
 import streamlit as st
 co = cohere.Client(os.environ.get('COHERE_KEY'))
 control =0 
-with open('/workspaces/stem-fair/parsed_data/cheezit.txt') as data:
+with open('./parsed_data/cheezit.txt') as data:
   control = 1
 st.title("LLM - Cohere")
 response = co.generate(
