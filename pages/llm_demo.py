@@ -3,7 +3,7 @@
 import cohere
 import os
 import streamlit as st
-import streamlit_toggle as tog
+
 on = st.toggle('Use backup file')
 co = cohere.Client(os.environ.get('COHERE_KEY'))
 control =0 
