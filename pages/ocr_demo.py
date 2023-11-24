@@ -27,13 +27,11 @@ if st.button('Analyze'):
     data = analyze(image)   
 else:
     st.write(data)
-with open('./text/real.txt') as extracted:
-     print("extract saved")
 
 
 expression = parse('pages[*].lines[*].text')
-match = expression.find(extracted)
-for match in expression.find(extracted):
+match = expression.find(data)
+for match in expression.find(data):
     parsed += match.value
 with open('./text/real.txt') as parsed:
      print("parsed saved")
