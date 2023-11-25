@@ -70,16 +70,19 @@ if st.button('analyze', key = 'a'):
                 save.write(str(parsed))  
                 text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
                 print(text)
-                st.text("Sending to LLM")
-                response = co.generate(
-prompt= text
-        )
-            st.subheader("Response")
+            first_text = "Give an health ranking of a food product containing these ingredients on a scale from 1-10 with 10 being the healthiest.Here are the ingredients:"+str(data)
+            st.text("Getting overall ranking")
+            response = co.generate(
+  prompt=first_text)        
+            st.subheader("Overall Ranking")
             st.write(response.generations[0].text)
-
+            st.text("Getting individual rankings")
+            response = co.generate(
+  prompt=first_text)  
+            st.subheader('Individual rankings')
+            st.write(response.generations[0].text)
+            
         else:
-
-            #st.image('./images/real.jpg')
             st.text("Sending to OCR")
             data = analyze(image)   
             with open('./text/real.txt','w') as extract:
@@ -97,13 +100,20 @@ prompt= text
     #print(parsed) 
             with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
- 
             text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
-            st.text("Sending to LLM")
+            first_text = "Give an health ranking of a food product containing these ingredients on a scale from 1-10 with 10 being the healthiest.Here are the ingredients:"+str(data)
+            st.text("Getting overall ranking")
+            response = co.generate(
+                 
+  prompt=first_text)
+            st.subheader("Overall Ranking")
+            st.write(response.generations[0].text)
+            st.text("Getting individual rankings")
+            
             response = co.generate(
   prompt=text
          )
-            st.subheader("Response")
+            st.subheader("Individual rankings")
             st.write(response.generations[0].text)
 else:
     print('')
