@@ -68,9 +68,9 @@ if st.button('analyze', key = 'a'):
                 #st.image('./images/backup.jpg')
             with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
-                text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
+                text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Here are the ingredients:" + str(parsed)
                 print(text)
-            first_text = "Give an health ranking of a food product containing these ingredients on a scale from 1-10 with 10 being the healthiest.Here are the ingredients:"+str(data)
+            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else."+str(parsed)
             st.text("Getting overall ranking")
             response = co.generate(
   prompt=first_text)        
@@ -78,7 +78,7 @@ if st.button('analyze', key = 'a'):
             st.write(response.generations[0].text)
             st.text("Getting individual rankings")
             response = co.generate(
-  prompt=first_text)  
+  prompt=text)  
             st.subheader('Individual rankings')
             st.write(response.generations[0].text)
             
@@ -100,14 +100,14 @@ if st.button('analyze', key = 'a'):
     #print(parsed) 
             with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
-            text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
-            first_text = "Give an health ranking of a food product containing these ingredients on a scale from 1-10 with 10 being the healthiest.Here are the ingredients:"+str(data)
+            text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Here are the ingredients:" + str(parsed)
+            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else."+str(parsed)
             st.text("Getting overall ranking")
             response = co.generate(
                  
   prompt=first_text)
             st.subheader("Overall Ranking")
-            st.write(response.generations[0].text)
+            st.text(response.generations[0].text)
             st.text("Getting individual rankings")
             
             response = co.generate(
