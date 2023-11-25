@@ -10,3 +10,5 @@ if image:
     st.text("Photo that was taken (new photo will override last one)")
     st.image('./images/real.jpg') # showing the image
     print('file save')  
+
+    

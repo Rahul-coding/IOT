@@ -1,29 +1,109 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-from streamlit.logger import get_logger
+from streamlit_back_camera_input import back_camera_input
+from ocr_utils import analyze
+from jsonpath_ng import JSONPath, parse
+import json
+import cohere
+import os
+from io import StringIO
 
-LOGGER = get_logger(__name__)
-st.title("Food")
-picture = st.camera_input("Take a picture of food label")
+st.title("NutrAI")
+st.text("press on the sqaure to take a photo")
+image = st.camera_input("Take a picture of food label")
+if image:
+    with open('./images/real.jpg', 'wb') as file: #saving as file 
+        file.write(image.getvalue())
+        file.close()
+    st.text("Photo that was taken (new photo will override last one)")
+    st.image('./images/real.jpg') # showing the image
+    print('file save')  
+image = "./images/real.jpg"
 
-if picture:
-    st.image(picture)
-st.title("Healthy/unhealthy")
-st.title("List of rankings")
-st.write("Sugar - 1")
-st.divider()
-st.write("Salt - 2")
-st.divider()
+on = st.toggle('Use backup file', key='U') 
+data = 0
+parsed = ''
+
+if on:
+        image = "./images/backup.jpg"   
+        st.image('./images/backup.jpg')
+else:
+    image = "./images/real.jpg"
+    st.image('./images/real.jpg')
+
+
+
+
+co = cohere.Client(os.environ.get('COHERE_KEY'))
+data = ""
+
+
+file_name = './text/real.txt'
+
+if on:
+  file_name = './text/backup.txt'
+
+file=open(file_name ,"r")
+data = file.read()
+
+if st.button('analyze', key = 'a'):
+        with open('./text/real.txt', 'w') as save:
+                save.write(str(parsed))  
+        st.text("test")
+        if on:
+            image = "./images/backup.jpg" 
+            #st.image('./images/backup.jpg')
+            st.text("Sending to OCR")
+            data = analyze(image)   
+            with open('./text/real.txt','w') as extract:
+                extract.write(str(data))
+
+            with open('./text/real.txt', 'r') as json_file:
+                json_data = json.load(json_file)
+
+            expression = parse('pages[*].lines[*].text')
+            match = expression.find(json_data)
+
+            for match in expression.find(json_data):
+                parsed += match.value  
+                #st.image('./images/backup.jpg')
+            with open('./text/real.txt', 'w') as save:
+                save.write(str(parsed))  
+                text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
+                print(text)
+                st.text("Sending to LLM")
+                response = co.generate(
+prompt= text
+        )
+            st.subheader("Response")
+            st.write(response.generations[0].text)
+
+        else:
+
+            #st.image('./images/real.jpg')
+            st.text("Sending to OCR")
+            data = analyze(image)   
+            with open('./text/real.txt','w') as extract:
+                extract.write(str(data))
+
+            with open('./text/real.txt', 'r') as json_file:
+                json_data = json.load(json_file)
+
+            expression = parse('pages[*].lines[*].text')
+            match = expression.find(json_data)
+
+            for match in expression.find(json_data):
+                parsed += match.value
+
+    #print(parsed) 
+            with open('./text/real.txt', 'w') as save:
+                save.write(str(parsed))  
+ 
+            text = "Rank only the ingreditens in this JSON on a scale from 1-10, 10 being the healthiest.  Don't rank anything other than ingredients. give every ingredinet a ranking: " + str(parsed)
+            st.text("Sending to LLM")
+            response = co.generate(
+  prompt=text
+         )
+            st.subheader("Response")
+            st.write(response.generations[0].text)
+else:
+    print('')
