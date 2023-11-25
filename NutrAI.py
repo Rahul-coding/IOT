@@ -48,7 +48,6 @@ data = file.read()
 if st.button('analyze', key = 'a'):
         with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
-        st.text("test")
         if on:
             image = "./images/backup.jpg" 
             #st.image('./images/backup.jpg')
