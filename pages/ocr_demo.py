@@ -27,12 +27,20 @@ if st.button('Analyze'):
     data = analyze(image)   
 else:
     st.write(data)
+print(data)
 
+with open('./text/real.txt','w') as extract:
+     extract.write(str(data))
+
+with open('./text/real.txt', 'r') as json_file:
+     json_data = json.load(json_file)
 
 expression = parse('pages[*].lines[*].text')
-match = expression.find(data)
-for match in expression.find(data):
+match = expression.find(json_data)
+
+for match in expression.find(json_data):
     parsed += match.value
-with open('./text/real.txt', 'wb') as parsed:
-     print("parsed saved")
-    
+
+#print(parsed) 
+with open('./text/real.txt', 'w') as save:
+    save.write(str(parsed))       
