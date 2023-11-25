@@ -25,22 +25,22 @@ if st.button('Analyze'):
         image = "./images/real.jpg"
         st.image('./images/real.jpg')
     data = analyze(image)   
-else:
-    st.write(data)
-print(data)
-
-with open('./text/real.txt','w') as extract:
+    with open('./text/real.txt','w') as extract:
      extract.write(str(data))
 
-with open('./text/real.txt', 'r') as json_file:
-     json_data = json.load(json_file)
+    with open('./text/real.txt', 'r') as json_file:
+        json_data = json.load(json_file)
 
-expression = parse('pages[*].lines[*].text')
-match = expression.find(json_data)
+    expression = parse('pages[*].lines[*].text')
+    match = expression.find(json_data)
 
-for match in expression.find(json_data):
-    parsed += match.value
+    for match in expression.find(json_data):
+        parsed += match.value
 
-#print(parsed) 
-with open('./text/real.txt', 'w') as save:
-    save.write(str(parsed))       
+    #print(parsed) 
+    with open('./text/real.txt', 'w') as save:
+        save.write(str(parsed))  
+else:
+    st.write(data)
+
+     
