@@ -7,7 +7,7 @@ import cohere
 import os
 from io import StringIO
 
-st.title("NutrAI**")
+st.title("NutrAI")
 st.text("press on the sqaure to take a photo")
 image = st.camera_input("Take a picture of food label")
 if image:
