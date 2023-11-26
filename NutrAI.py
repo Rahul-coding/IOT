@@ -19,16 +19,9 @@ if image:
     print('file save')  
 image = "./images/real.jpg"
 
-on = st.toggle('Use backup file', key='U') 
 data = 0
 parsed = ''
 
-if on:
-        image = "./images/backup.jpg"   
-        st.image('./images/backup.jpg')
-else:
-    image = "./images/real.jpg"
-    st.image('./images/real.jpg')
 
 
 
@@ -39,8 +32,6 @@ data = ""
 
 file_name = './text/real.txt'
 
-if on:
-  file_name = './text/backup.txt'
 
 file=open(file_name ,"r")
 data = file.read()
