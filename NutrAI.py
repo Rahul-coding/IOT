@@ -48,37 +48,38 @@ data = file.read()
 if st.button('analyze', key = 'a'):
         with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
-        if on:
-            image = "./images/backup.jpg" 
+        
+        image = "./images/backup.jpg" 
             #st.image('./images/backup.jpg')
-            st.text("Sending to OCR")
-            data = analyze(image)   
-            with open('./text/real.txt','w') as extract:
-                extract.write(str(data))
+        st.text("Sending to OCR")
+        data = analyze(image)   
+        with open('./text/real.txt','w') as extract:
+            extract.write(str(data))
 
-            with open('./text/real.txt', 'r') as json_file:
-                json_data = json.load(json_file)
+        with open('./text/real.txt', 'r') as json_file:
+            json_data = json.load(json_file)
 
-            expression = parse('pages[*].lines[*].text')
-            match = expression.find(json_data)
+        expression = parse('pages[*].lines[*].text')
+        match = expression.find(json_data)
 
-            for match in expression.find(json_data):
-                parsed += match.value  
+        for match in expression.find(json_data):
+            parsed += match.value  
                 #st.image('./images/backup.jpg')
-            with open('./text/real.txt', 'w') as save:
-                save.write(str(parsed))  
-                text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher. Here are the ingredients:" + str(parsed)
-                print(text)
-            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher."+str(parsed)
-            st.text("Getting overall ranking")
-            response = co.generate(
+        with open('./text/real.txt', 'w') as save:
+            save.write(str(parsed))  
+            text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher. Here are the ingredients:" + str(parsed)
+            print(text)
+        first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher."+str(parsed)
+        st.text("Getting overall ranking")
+        response = co.generate(
   prompt=first_text)        
-            st.subheader("Overall Ranking")
-            st.write(response.generations[0].text)
-            st.text("Getting individual rankings")
-            response = co.generate(
+        st.subheader("Overall Ranking")
+        st.write(response.generations[0].text)
+        st.text("Getting individual rankings")
+        response = co.generate(
   prompt=text)  
-            st.subheader('Individual rankings')
-            st.write(response.generations[0].text)
+        st.subheader('Individual rankings')
+        st.write(response.generations[0].text)
+
 else:
     print('')
