@@ -49,6 +49,8 @@ if st.button('analyze'):
         print("__________")
         print(parsed)
         print("__________")
+        st.text("**parsed**")
+        st.text(parsed)
         
         st.text("Getting overall ranking")
         response = co.generate(prompt=overall_prompt)        
