@@ -28,9 +28,6 @@ if st.button('analyze'):
            
         st.text("Sending to OCR")
         ocr = analyze(image)   
-        print("__________")
-        print(ocr)
-        print("__________")
         with open('./text/real.txt','w') as extract:
             extract.write(str(ocr))
 
@@ -43,15 +40,12 @@ if st.button('analyze'):
         parsed=""
         for match in expression.find(json_ocr):
             parsed += match.value  
+        print(parsed)
 
-        ingredient_prompt = '''you are a nutiritionist. your job is to examine a list of ingredients and rank them on a scale of 1-10, 10 being the most healthy. Your response should strictly be in the followding format. do not include anythinig else in your response.  Score is the numerial score, reason is one sentense description. 
+        ingredient_prompt = '''you are a nutiritionist. your job is to examine a list of ingredients and rank them on a scale of 1-10, 10 being the most healthy. Your response should strictly be in the followding format. do not include anythinig else in your response.
 Ignore any words in input before ingrediants. Rank every ingredient in the folowing format:
 
-<ingredient name>: <score>
-Reason: <one sentence explaining your score"
----
-
-input
+"ranking" | [['"ingredient'1",score1], ["ingredient2'"score2], ["ingredient3",score3]] "|" <overallscore>
 ''' + str(parsed)
         overall_prompt = '''you are a nutiritionist. you job is to examine a list of ingredients and rank them on a scale of 1-10, 10 being the most healthy. Your response should strictly be in the followding format. do not include anythinig else in your response.  Score is the numerial score, reason is one sentense description. 
 Ignore any words in input before ingrediants.
@@ -69,13 +63,23 @@ input
         
         st.text("Getting overall ranking")
         response = co.generate(prompt=overall_prompt)        
-        st.subheader("Overall Ranking")
-        st.write(response.generations[0].text)
+        string = response.generations[0].text   
+        score = string.split()[1]
+        reason = string.split(': ')[2]
+        score = score
+        st.subheader("Overall Ranking: "+str(score))
+
+        print(reason)
+
         
         st.text("Getting individual rankings")
-        response = co.generate(prompt=ingredient_prompt)  
+        response = co.generate(prompt=ingredient_prompt) 
+        
         st.subheader('Individual rankings')
-        st.write(response.generations[0].text)
+        ingredients= response.generations[0].text
 
-else:
-    print('')
+        print(response.generations[0].text)
+        split_ingredients = ingredients.split("|")[1]
+        in1 = eval(split_ingredients)
+        st.dataframe(data = in1, hide_index = True, column_config = {"0":"ingredient", "1": st.column_config.ProgressColumn("score", min_value = 0, max_value = 10, format= "%d") })
+
