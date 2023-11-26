@@ -67,9 +67,9 @@ if st.button('analyze', key = 'a'):
                 #st.image('./images/backup.jpg')
             with open('./text/real.txt', 'w') as save:
                 save.write(str(parsed))  
-                text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Here are the ingredients:" + str(parsed)
+                text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher. Here are the ingredients:" + str(parsed)
                 print(text)
-            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else."+str(parsed)
+            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else. Give sugary, high carb, and artificaly flavored food, items lower rankings. Rank natural and organic foods higher."+str(parsed)
             st.text("Getting overall ranking")
             response = co.generate(
   prompt=first_text)        
@@ -79,40 +79,6 @@ if st.button('analyze', key = 'a'):
             response = co.generate(
   prompt=text)  
             st.subheader('Individual rankings')
-            st.write(response.generations[0].text)
-            
-        else:
-            st.text("Sending to OCR")
-            data = analyze(image)   
-            with open('./text/real.txt','w') as extract:
-                extract.write(str(data))
-
-            with open('./text/real.txt', 'r') as json_file:
-                json_data = json.load(json_file)
-
-            expression = parse('pages[*].lines[*].text')
-            match = expression.find(json_data)
-
-            for match in expression.find(json_data):
-                parsed += match.value
-
-    #print(parsed) 
-            with open('./text/real.txt', 'w') as save:
-                save.write(str(parsed))  
-            text = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Here are the ingredients:" + str(parsed)
-            first_text = "give an overall health ranking for a food product containing these ingredients. Rank on a scale from 1-10 with 10 being the healthiest. Only return the ranking and no explanation. Return the score in a bigger font than everything else."+str(parsed)
-            st.text("Getting overall ranking")
-            response = co.generate(
-                 
-  prompt=first_text)
-            st.subheader("Overall Ranking")
-            st.text(response.generations[0].text)
-            st.text("Getting individual rankings")
-            
-            response = co.generate(
-  prompt=text
-         )
-            st.subheader("Individual rankings")
             st.write(response.generations[0].text)
 else:
     print('')
