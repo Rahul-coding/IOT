@@ -44,7 +44,15 @@ if st.button('analyze'):
         for match in expression.find(json_ocr):
             parsed += match.value  
 
-        ingredient_prompt = "give every ingredeient in this list a score from 1-10 with 10 being the helathiest. Only return the score. Give each ingredient an indivdual score  from 1-10. Return in a list format. Give sugary, high carb, and artificaly flavored food, and processed food, items significantly lower rankings. Rank natural and organic foods higher. Here are the ingredients:" + str(parsed)
+        ingredient_prompt = '''you are a nutiritionist. you job is to examine a list of ingredients and rank them on a scale of 1-10, 10 being the most healthy. Your response should strictly be in the followding format. do not include anythinig else in your response.  Score is the numerial score, reason is one sentense description. 
+Ignore any words in input before ingrediants. Rank every ingredinet in the folowing format
+
+Score: <score>
+Reason: <one sentence explaining your score"
+---
+
+input
+''' + str(parsed)
         overall_prompt = '''you are a nutiritionist. you job is to examine a list of ingredients and rank them on a scale of 1-10, 10 being the most healthy. Your response should strictly be in the followding format. do not include anythinig else in your response.  Score is the numerial score, reason is one sentense description. 
 Ignore any words in input before ingrediants.
 
