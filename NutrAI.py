@@ -66,10 +66,7 @@ input
         print("__________")
         print(parsed)
         print("__________")
-        st.text("**parsed**")
-        st.text(parsed)
         
-        st.text(overall_prompt)
         st.text("Getting overall ranking")
         response = co.generate(prompt=overall_prompt)        
         st.subheader("Overall Ranking")
