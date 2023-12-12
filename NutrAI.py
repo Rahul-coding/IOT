@@ -10,7 +10,7 @@ from io import StringIO
 co = cohere.Client(os.environ.get('COHERE_KEY'))
 
 
-st.title("NutrAI")
+st.title("NutriAI")
 image = st.camera_input(label= "Take a picture of food label")
 if image:
     with open('./images/real.jpg', 'wb') as file: #saving as file 
